@@ -11,7 +11,9 @@ config_version=5
 [application]
 
 config/name="MHRAC"
+run/main_scene="res://scenes/world.tscn"
 config/features=PackedStringArray("4.2", "Forward Plus")
+run/max_fps=240
 boot_splash/bg_color=Color(0.141176, 0.141176, 0.141176, 1)
 config/icon="res://art/Characters/skulkerWalk/skulkerWalk3.png"
 
@@ -19,7 +21,12 @@ config/icon="res://art/Characters/skulkerWalk/skulkerWalk3.png"
 
 window/size/viewport_width=640
 window/size/viewport_height=360
+window/size/mode=2
 window/stretch/mode="canvas_items"
+
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/smoothing/plugin.cfg")
 
 [input]
 

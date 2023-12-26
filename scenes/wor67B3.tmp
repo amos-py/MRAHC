@@ -1,9 +1,8 @@
-[gd_scene load_steps=30 format=3 uid="uid://nkohbkh3qxk1"]
+[gd_scene load_steps=28 format=3 uid="uid://nkohbkh3qxk1"]
 
 [ext_resource type="Script" path="res://scripts/Player.gd" id="1_0g0lh"]
 [ext_resource type="Texture2D" uid="uid://d2wx6pfvfcd06" path="res://art/Tiles/grungeTileset.png" id="1_iaqyr"]
 [ext_resource type="Texture2D" uid="uid://cnepu2tyhwbjc" path="res://art/Characters/skulkerIdle/skulkerIdle1.png" id="1_lkxhl"]
-[ext_resource type="Script" path="res://scenes/world.gd" id="1_u3c0m"]
 [ext_resource type="Texture2D" uid="uid://c8bvcr6ifdido" path="res://art/Characters/skulkerIdle/skulkerIdle2.png" id="2_q4ouk"]
 [ext_resource type="Texture2D" uid="uid://ckjxw8m0vcvuu" path="res://art/Characters/skulkerFall/skulkerFall1.png" id="2_t4kpl"]
 [ext_resource type="Texture2D" uid="uid://b74sryh3n118b" path="res://art/Characters/skulkerIdle/skulkerIdle3.png" id="3_6npxk"]
@@ -20,13 +19,9 @@
 [ext_resource type="Texture2D" uid="uid://br1myce1cwdmh" path="res://art/Characters/skulkerWalk/skulkerWalk6.png" id="10_0jlx1"]
 [ext_resource type="Texture2D" uid="uid://cke7l3wewrvi6" path="res://art/Characters/skulkerWalk/skulkerWalk7.png" id="11_pq7l6"]
 [ext_resource type="Texture2D" uid="uid://bwc7f6t8ae8qr" path="res://art/Characters/skulkerWalk/skulkerWalk8.png" id="12_y8ave"]
-[ext_resource type="Script" path="res://addons/smoothing/smoothing_2d.gd" id="20_vj3vm"]
 [ext_resource type="Texture2D" uid="uid://b3qvr45vgcobb" path="res://art/Backgrounds/mountainBack.png" id="20_vrglu"]
 [ext_resource type="Texture2D" uid="uid://st0n0ka3jv2" path="res://art/Backgrounds/mountainFront.png" id="21_wi3wv"]
 [ext_resource type="VideoStream" path="res://videos/Jan.ogv" id="22_ef4oq"]
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_rtb5b"]
-size = Vector2(16.0938, 29.8825)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_kg4c4"]
 animations = [{
@@ -101,6 +96,9 @@ animations = [{
 "name": &"Walk",
 "speed": 10.0
 }]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_rtb5b"]
+size = Vector2(16.0938, 29.8825)
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_83i58"]
 texture = ExtResource("1_iaqyr")
@@ -185,19 +183,20 @@ sources/0 = SubResource("TileSetAtlasSource_83i58")
 size = Vector2(646, 40)
 
 [node name="World" type="Node2D"]
-script = ExtResource("1_u3c0m")
 
 [node name="Player" type="CharacterBody2D" parent="."]
 position = Vector2(380, -87)
 scale = Vector2(2.42, 2.42)
 script = ExtResource("1_0g0lh")
 speed = 250
-grnd_friction = 0.85
-air_friction = 0.75
-wall_jmp_x = 1000
-wall_jmp_y_amp = 1.25
-jumpForce = 300
-double_jump_amp = 0.9
+jumpForce = 245
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Player"]
+texture_filter = 1
+position = Vector2(12.5, 6.09375)
+sprite_frames = SubResource("SpriteFrames_kg4c4")
+animation = &"Jump"
+autoplay = "Idle"
 
 [node name="Camera" type="Camera2D" parent="Player"]
 offset = Vector2(25.96, 0)
@@ -209,16 +208,6 @@ position = Vector2(11.4844, 7.09)
 scale = Vector2(0.999999, 0.999999)
 shape = SubResource("RectangleShape2D_rtb5b")
 
-[node name="Smoothing2D" type="Node2D" parent="Player"]
-script = ExtResource("20_vj3vm")
-
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Player/Smoothing2D"]
-texture_filter = 1
-position = Vector2(12.5, 6.09375)
-sprite_frames = SubResource("SpriteFrames_kg4c4")
-animation = &"Jump"
-autoplay = "Idle"
-
 [node name="TileMap" type="TileMap" parent="."]
 texture_filter = 1
 tile_set = SubResource("TileSet_7njju")
@@ -228,6 +217,7 @@ layer_0/tile_data = PackedInt32Array(720896, 0, 0, 786432, 0, 1, 720897, 65536, 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
 [node name="ParallaxBackground" type="ParallaxBackground" parent="CanvasLayer"]
+visible = false
 
 [node name="mountainBack" type="ParallaxLayer" parent="CanvasLayer/ParallaxBackground"]
 position = Vector2(0, 60)

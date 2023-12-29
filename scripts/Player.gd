@@ -65,11 +65,11 @@ func _physics_process(delta):
 	var pos_delta = get_position_delta()
 	time += delta
 
-	if velocity.y != 0: moving = true
-	else: moving = false
+	moving = false
 	
 	running = false
 	var allow_rotation = false
+	var allow_jump = false
 	
 	var direction = Input.get_axis("Left", "Right")
 	
@@ -83,6 +83,7 @@ func _physics_process(delta):
 		if not (sliding_timer > time and running):    #if the timer is less than the time and the player is not running, allow movement
 			move_dir(direction)
 			allow_rotation = true                     #makes it so that the player does not rotate while sliding, this would make animation impossible if not added
+			allow_jump = true
 		else:
 			#$Smoothing2D/AnimatedSprite2D.play("Slipping")
 			pass #remove when animation added
@@ -94,17 +95,17 @@ func _physics_process(delta):
 		velocity.x = clamp(velocity.x,-walk_speed,walk_speed)
 		
 	
-	if is_on_floor():                                              #interactions for if the player is on the floor
-		wall_jumps = 0
 	
 	if pos_delta.y < 0:
 		$Smoothing2D/AnimatedSprite2D.play("Jump")
 	elif velocity.x != 0:                                                          #if the player is not on the floor, add air_friction
 		$Smoothing2D/AnimatedSprite2D.play("Walk")
+	if is_on_floor():                                              #interactions for if the player is on the floor
+		wall_jumps = 0
 	
-	if not moving:                                             #if the player is not moving, reduce velocity using friction
-		$Smoothing2D/AnimatedSprite2D.play("Idle")
-		velocity.x *= grnd_friction
+		if not moving and velocity.y == 0:                                             #if the player is not moving, reduce velocity using friction
+			$Smoothing2D/AnimatedSprite2D.play("Idle")
+			velocity.x *= grnd_friction
 	
 	elif not moving:
 		velocity.x *= air_friction 
@@ -134,7 +135,7 @@ func _physics_process(delta):
 		jumps = max_jumps                                      #resets amount of jumps back to max
 
 	# Jumping stuff
-	if Input.is_action_just_pressed("Jump"):                              #will run if the player has more than 0 jumps and pressed jump, this checks if the player has MORE THAN 0 jumps, this is important because if the value somehow becomes negative, the player could infinitely jump
+	if Input.is_action_just_pressed("Jump") and allow_jump:               #will run if the player has more than 0 jumps and pressed jump, this checks if the player has MORE THAN 0 jumps, this is important because if the value somehow becomes negative, the player could infinitely jump
 		jump()                                                            #removes one jump from amount player can use, when this is equal to 0, player can no longer jump
 
 	old_dir = direction

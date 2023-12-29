@@ -48,7 +48,6 @@ func jump():
 
 	if jumps == max_jumps:                                                      #only runs if player is not on a wall, checks if the jump is the first jump, this is for using different animations for double and normal jumps
 		velocity.y = -jumpForce
-		$Smoothing2D/AnimatedSprite2D.play("Jump")
 	elif jumps > 0:                                                                         #runs when the player has double jumped
 		velocity.y = -jumpForce * double_jump_amp
 		#$Smoothing2D/AnimatedSprite2D.play("DoubleJump")                         #update animation here
@@ -63,9 +62,12 @@ var time = 0.0
 var sliding_timer = 0
 
 func _physics_process(delta):
+	var pos_delta = get_position_delta()
 	time += delta
+
+	if velocity.y != 0: moving = true
+	else: moving = false
 	
-	moving = false
 	running = false
 	var allow_rotation = false
 	
@@ -91,11 +93,14 @@ func _physics_process(delta):
 	else:
 		velocity.x = clamp(velocity.x,-walk_speed,walk_speed)
 		
-	if velocity.x != 0:                                                          #if the player is not on the floor, add air_friction
-		$Smoothing2D/AnimatedSprite2D.play("Walk")
 	
 	if is_on_floor():                                              #interactions for if the player is on the floor
 		wall_jumps = 0
+	
+	if pos_delta.y < 0:
+		$Smoothing2D/AnimatedSprite2D.play("Jump")
+	elif velocity.x != 0:                                                          #if the player is not on the floor, add air_friction
+		$Smoothing2D/AnimatedSprite2D.play("Walk")
 	
 	if not moving:                                             #if the player is not moving, reduce velocity using friction
 		$Smoothing2D/AnimatedSprite2D.play("Idle")
@@ -116,7 +121,6 @@ func _physics_process(delta):
 
 	# Gravity
 	if not is_on_floor():
-		var pos_delta = get_position_delta()
 		if is_on_wall():                                       #handles interactions if the player is on a wall, used for wall jumping, here it simply makes the player fall down slower if touching a wall
 			#$Smoothing2D/AnimatedSprite2D.play("WallSliding") #update animation here
 			velocity.y = wall_slide_speed

@@ -1,0 +1,133 @@
+[gd_scene load_steps=22 format=3 uid="uid://jpqsc20hglfk"]
+
+[ext_resource type="Script" path="res://scripts/Player.gd" id="1_ehh2i"]
+[ext_resource type="Script" path="res://addons/smoothing/smoothing_2d.gd" id="2_homg2"]
+[ext_resource type="Texture2D" uid="uid://ckjxw8m0vcvuu" path="res://art/Characters/skulkerFall/skulkerFall1.png" id="3_74t8r"]
+[ext_resource type="Texture2D" uid="uid://nyqi8uj7dirq" path="res://art/Characters/skulkerFall/skulkerFall2.png" id="4_m66lx"]
+[ext_resource type="Texture2D" uid="uid://cnepu2tyhwbjc" path="res://art/Characters/skulkerIdle/skulkerIdle1.png" id="5_r64mm"]
+[ext_resource type="Texture2D" uid="uid://c8bvcr6ifdido" path="res://art/Characters/skulkerIdle/skulkerIdle2.png" id="6_26wh3"]
+[ext_resource type="Texture2D" uid="uid://b74sryh3n118b" path="res://art/Characters/skulkerIdle/skulkerIdle3.png" id="7_1dr5k"]
+[ext_resource type="Texture2D" uid="uid://d1ev4b7x5if4h" path="res://art/Characters/skulkerIdle/skulkerIdle4.png" id="8_e52k7"]
+[ext_resource type="Texture2D" uid="uid://cfyeqvknk66s5" path="res://art/Characters/skulkerJump/skulkerJump1.png" id="9_xm2oa"]
+[ext_resource type="Texture2D" uid="uid://b0lqchtkodapd" path="res://art/Characters/skulkerJump/skulkerJump2.png" id="10_xkx8d"]
+[ext_resource type="Texture2D" uid="uid://dpcto17upb6l5" path="res://art/Characters/skulkerJump/skulkerJump3.png" id="11_1gxct"]
+[ext_resource type="Texture2D" uid="uid://q4gbrfoe4qcc" path="res://art/Characters/skulkerWalk/skulkerWalk1.png" id="12_ocg6b"]
+[ext_resource type="Texture2D" uid="uid://duy3it308r02i" path="res://art/Characters/skulkerWalk/skulkerWalk2.png" id="13_5wm12"]
+[ext_resource type="Texture2D" uid="uid://buheymq24gxh3" path="res://art/Characters/skulkerWalk/skulkerWalk3.png" id="14_i47eq"]
+[ext_resource type="Texture2D" uid="uid://d21rlwpbede12" path="res://art/Characters/skulkerWalk/skulkerWalk4.png" id="15_byhp6"]
+[ext_resource type="Texture2D" uid="uid://brx38sabgrmkw" path="res://art/Characters/skulkerWalk/skulkerWalk5.png" id="16_fwbvj"]
+[ext_resource type="Texture2D" uid="uid://br1myce1cwdmh" path="res://art/Characters/skulkerWalk/skulkerWalk6.png" id="17_ongrl"]
+[ext_resource type="Texture2D" uid="uid://cke7l3wewrvi6" path="res://art/Characters/skulkerWalk/skulkerWalk7.png" id="18_h8ukx"]
+[ext_resource type="Texture2D" uid="uid://bwc7f6t8ae8qr" path="res://art/Characters/skulkerWalk/skulkerWalk8.png" id="19_dp8h0"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_rtb5b"]
+size = Vector2(16.0938, 29.8825)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_kg4c4"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_74t8r")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_m66lx")
+}],
+"loop": true,
+"name": &"Fall",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("5_r64mm")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_26wh3")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_1dr5k")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_e52k7")
+}],
+"loop": true,
+"name": &"Idle",
+"speed": 7.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("9_xm2oa")
+}, {
+"duration": 1.0,
+"texture": ExtResource("10_xkx8d")
+}, {
+"duration": 1.0,
+"texture": ExtResource("11_1gxct")
+}],
+"loop": false,
+"name": &"Jump",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("12_ocg6b")
+}, {
+"duration": 1.0,
+"texture": ExtResource("13_5wm12")
+}, {
+"duration": 1.0,
+"texture": ExtResource("14_i47eq")
+}, {
+"duration": 1.0,
+"texture": ExtResource("15_byhp6")
+}, {
+"duration": 1.0,
+"texture": ExtResource("16_fwbvj")
+}, {
+"duration": 1.0,
+"texture": ExtResource("17_ongrl")
+}, {
+"duration": 1.0,
+"texture": ExtResource("18_h8ukx")
+}, {
+"duration": 1.0,
+"texture": ExtResource("19_dp8h0")
+}],
+"loop": true,
+"name": &"Walk",
+"speed": 10.0
+}]
+
+[node name="Player" type="CharacterBody2D"]
+position = Vector2(380, -87)
+scale = Vector2(2.42, 2.42)
+script = ExtResource("1_ehh2i")
+walk_speed = 250
+run_accel = 0.01
+grnd_friction = 0.85
+air_friction = 0.85
+wall_slide_speed = 150
+wall_jmp_x = 1000
+wall_jmp_y_amp = 1.5
+jumpForce = 300
+double_jump_amp = 1.25
+max_wall_jumps = -1
+
+[node name="Camera" type="Camera2D" parent="."]
+offset = Vector2(25.96, 0)
+zoom = Vector2(0.75, 0.75)
+position_smoothing_enabled = true
+
+[node name="Hitbox" type="CollisionShape2D" parent="."]
+position = Vector2(11.4844, 7.09)
+scale = Vector2(0.999999, 0.999999)
+shape = SubResource("RectangleShape2D_rtb5b")
+
+[node name="Smoothing2D" type="Node2D" parent="."]
+script = ExtResource("2_homg2")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Smoothing2D"]
+texture_filter = 1
+position = Vector2(12.5, 6.09375)
+sprite_frames = SubResource("SpriteFrames_kg4c4")
+animation = &"Jump"
+autoplay = "Idle"

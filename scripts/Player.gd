@@ -69,7 +69,7 @@ func _physics_process(delta):
 	
 	running = false
 	var allow_rotation = false
-	var allow_jump = false
+	var allow_jump = true
 	
 	var direction = Input.get_axis("Left", "Right")
 	
@@ -83,10 +83,10 @@ func _physics_process(delta):
 		if not (sliding_timer > time and running):    #if the timer is less than the time and the player is not running, allow movement
 			move_dir(direction)
 			allow_rotation = true                     #makes it so that the player does not rotate while sliding, this would make animation impossible if not added
-			allow_jump = true
 		else:
+			allow_jump = false
 			#$Smoothing2D/AnimatedSprite2D.play("Slipping")
-			pass #remove when animation added
+
 	
 	
 	if running:        #sets the maximum speed the player is allowed to have, maybe this will be revamped later, since currently the player cannot exceed these limits at all, making speedrunning kind of boring
